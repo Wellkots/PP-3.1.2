@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+
+    <title th:text="${'Admin panel'}"></title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div class="header-page">
+    <h1 th:text="${admin.getName + ' , welcome from admin panel'}"></h1>
+</div>
+
+    <div class="block-content">
+
+        <table>
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>LastName</td>
+                <td>Age</td>
+                <td>Password</td>
+                <td>Email</td>
+                <td>Roles</td>
+                <td>View</td>
+
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="user: ${users}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getName()}"></td>
+                <td th:text="${user.getLastName()}"></td>
+                <td th:text="${user.getAge()}"></td>
+                <td th:text="${user.getPassword()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td><p th:each=" role : ${user.getRoles()}" th:text="${role.getName()}"></p></td>
+
+                <td>
+                    <button>
+                        <a th:href="@{/user/{id}(id=${user.getId()})}" th:text="${'View'}"></a>
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        <a th:href="@{/admin/{id}/update(id=${user.id})}">Edit</a>
+                    </button>
+                </td>
+                <td>
+                    <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.id})}">
+                        <input type="submit" value="Delete User"/>
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+    <form th:action="@{/admin/create/}">
+        <input type="submit" value="Create User"/>
+    </form>
+
+
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Sign Out</button>
+    </form>
+
+</div>
+<br> <br>
+<div class="content-page">
+    <div class="block-list-left">
+        <div class="block-list-left-menu-buttom">
+            <a th:href="@{/user/}">User page</a>
+        </div>
+        <div class="block-list-left-menu-buttom">
+            <a th:href="@{/admin/}">Admin page</a>
+        </div>
+    </div>
+
+</body>
+</html>
